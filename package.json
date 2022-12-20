@@ -1,0 +1,19 @@
+{
+  "name": "browser-webrtc-remote-desktop",
+  "version": "0.0.8",
+  "description": "",
+  "files": [
+    "lib"
+  ],
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc",
+    "prepare": "npm run build"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "typescript": "^4.9.4"
+  }
+}
