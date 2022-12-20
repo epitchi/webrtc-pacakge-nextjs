@@ -34,6 +34,7 @@ export class WebRTCClient  {
         this.started = false;
         this.video = vid;
         this.audio = audio;
+        this.alert = () => {}
         
 
         this.DeviceSelection = DeviceSelection;
@@ -155,7 +156,11 @@ export class WebRTCClient  {
             }
             
 
-            let i = new DeviceSelection(pkt.get("Devices"));
+            let x = pkt.get("Devices")
+            if ( x == null) {
+                return;
+            }
+            let i = new DeviceSelection(x);
             let result = await this.DeviceSelection(i);
             var dat = new Map<string,string>();
             dat.set("type","answer");

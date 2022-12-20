@@ -15,11 +15,8 @@ class UserResponse {
         var ret = {
             id: this.Id,
             error: this.Error,
-            data: {},
+            data: Array.from(this.Data.entries()),
         };
-        this.Data.forEach((value, key, map) => {
-            ret.data[key] = value;
-        });
         return JSON.stringify(ret);
     }
 }
@@ -35,15 +32,9 @@ class UserRequest {
         var ret = {
             id: this.Id,
             target: this.Target,
-            headers: {},
-            data: {},
+            headers: Array.from(this.Headers.entries()),
+            data: Array.from(this.Data.entries()),
         };
-        this.Headers.forEach((value, key, map) => {
-            ret.headers[key] = value;
-        });
-        this.Data.forEach((value, key, map) => {
-            ret.data[key] = value;
-        });
         return JSON.stringify(ret);
     }
 }

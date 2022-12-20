@@ -35,9 +35,24 @@ class Shortcut {
         this.Handler = Handler;
     }
     HandleShortcut(event) {
-        var shift = this.keys.includes(KeyCode.Shift) === event.shiftKey;
-        var alt = this.keys.includes(KeyCode.Alt) === event.altKey;
-        var ctrl = this.keys.includes(KeyCode.Ctrl) === event.ctrlKey;
+        var shift = false;
+        this.keys.forEach((x) => {
+            if (x == KeyCode.Shift && event.shiftKey) {
+                shift = true;
+            }
+        });
+        var alt = false;
+        this.keys.forEach((x) => {
+            if (x == KeyCode.Alt && event.altKey) {
+                alt == true;
+            }
+        });
+        var ctrl = false;
+        this.keys.forEach((x) => {
+            if (x == KeyCode.Ctrl && event.ctrlKey) {
+                ctrl = true;
+            }
+        });
         var key = false;
         this.keys.forEach(element => {
             if (element === event.code) {
@@ -58,15 +73,12 @@ class HIDMsg {
     constructor(code, data) {
         this.code = code;
         this.data = new Map();
-        Object.keys(data).forEach(function (key) {
+        Object.keys(data).forEach((key) => {
             this.data.set(key, data[key]);
-        }.bind(this));
+        });
     }
     ToString() {
-        let data = {};
-        this.data.forEach((value, key) => {
-            data[key] = value;
-        });
+        let data = Array.from(this.data.entries());
         return JSON.stringify({
             code: this.code,
             data: data,

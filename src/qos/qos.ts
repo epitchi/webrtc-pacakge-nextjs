@@ -5,6 +5,35 @@ export class VideoMetrics {
     type : string
     constructor() {
         this.type = "video"
+
+    this.frameWidth = 0
+    this.frameHeight = 0
+
+    this.codecId = ""
+    this.decoderImplementation = ""
+
+    this.totalSquaredInterFrameDelay = 0
+    this.totalInterFrameDelay = 0
+
+    this.totalProcessingDelay = 0
+    this.totalDecodeTime = 0
+    
+    this.keyFramesDecoded = 0
+    this.framesDecoded = 0
+    this.framesReceived = 0
+    
+    this.headerBytesReceived = 0
+    this.bytesReceived = 0
+    this.packetsReceived = 0
+    
+    this.framesDropped = 0
+    this.packetsLost = 0
+
+    this.jitterBufferEmittedCount = 0
+    this.jitterBufferDelay = 0
+    this.jitter = 0
+
+    this.timestamp = 0
     }
 
     frameWidth : number
@@ -42,6 +71,19 @@ export class AudioMetrics {
     type : string
     constructor() {
         this.type = "audio"
+
+    this.audioLevel = 0
+    this.totalAudioEnergy = 0
+
+    this.totalSamplesReceived = 0
+    this.headerBytesReceived = 0
+
+    this.bytesReceived = 0
+    this.packetsReceived = 0
+
+    this.packetsLost = 0
+
+    this.timestamp = 0
     }
 
     audioLevel : number
@@ -62,6 +104,28 @@ export class NetworkMetrics {
     type : string
     constructor() {
         this.type = "network"
+
+    this.packetsReceived = 0
+    this.packetsSent = 0
+
+    this.bytesSent = 0
+    this.bytesReceived = 0
+
+    this.availableIncomingBitrate = 0
+    this.availableOutgoingBitrate = 0
+
+    this.currentRoundTripTime = 0
+    this.totalRoundTripTime = 0
+
+    this.localIP = ""
+    this.localPort = 0
+
+    this.remoteIP = ""
+    this.remotePort = 0
+
+    this.priority = 0
+
+    this.timestamp = 0
     }
 
     packetsReceived : number
@@ -105,7 +169,7 @@ export class Adaptive {
     running : boolean
 
 
-    filterNetwork(report : RTCStatsReport) : NetworkMetrics {
+    filterNetwork(report : RTCStatsReport) : NetworkMetrics | null {
         let remoteCandidate = ""
         let localCandidate = ""
         let CandidatePair = ""
@@ -153,7 +217,7 @@ export class Adaptive {
 
 
 
-    filterVideo(report : RTCStatsReport) : VideoMetrics {
+    filterVideo(report : RTCStatsReport) : VideoMetrics | null {
 
         let ret = null;
         report.forEach((val,key) => {
@@ -187,7 +251,7 @@ export class Adaptive {
         return ret;
     }
 
-    filterAudio(report : RTCStatsReport) : AudioMetrics {
+    filterAudio(report : RTCStatsReport) : AudioMetrics | null {
 
         let ret = null;
         report.forEach((val,key) => {

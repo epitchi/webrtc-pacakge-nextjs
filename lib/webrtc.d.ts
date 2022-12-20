@@ -1,8 +1,8 @@
 import { Adaptive } from "./qos/qos";
 export declare class WebRTC {
     State: string;
-    Conn: RTCPeerConnection;
-    Ads: Adaptive;
+    Conn: RTCPeerConnection | null;
+    Ads: Adaptive | null;
     private SignalingSendFunc;
     private MetricHandler;
     private TrackHandler;

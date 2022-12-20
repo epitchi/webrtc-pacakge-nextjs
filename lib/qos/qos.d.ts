@@ -57,9 +57,9 @@ export declare class Adaptive {
     metricCallback: (data: string) => void;
     conn: RTCPeerConnection;
     running: boolean;
-    filterNetwork(report: RTCStatsReport): NetworkMetrics;
-    filterVideo(report: RTCStatsReport): VideoMetrics;
-    filterAudio(report: RTCStatsReport): AudioMetrics;
+    filterNetwork(report: RTCStatsReport): NetworkMetrics | null;
+    filterVideo(report: RTCStatsReport): VideoMetrics | null;
+    filterAudio(report: RTCStatsReport): AudioMetrics | null;
     getConnectionStats(conn: RTCPeerConnection): Promise<void>;
     /**
      *

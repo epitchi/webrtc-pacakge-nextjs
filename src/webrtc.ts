@@ -4,8 +4,8 @@ import { Adaptive } from "./qos/qos";
 export class WebRTC 
 {
     State: string;
-    Conn: RTCPeerConnection;
-    Ads : Adaptive
+    Conn: RTCPeerConnection | null;
+    Ads : Adaptive | null;
 
     private SignalingSendFunc : (Target : string, Data : Map<string,string>) => (void)
     private MetricHandler     : (Target : string) => (void)
@@ -22,6 +22,8 @@ export class WebRTC
         this.MetricHandler     = metricHandler;
         this.TrackHandler      = TrackHandler;
         this.channelHandler    = channelHandler; 
+        this.Conn = null;
+        this.Ads = null;
     }
 
 
@@ -63,9 +65,9 @@ export class WebRTC
     public async onIncomingICE(ice : RTCIceCandidateInit) {
         var candidate = new RTCIceCandidate(ice);
         try{
-            await this.Conn.addIceCandidate(candidate)
+            await this.Conn?.addIceCandidate(candidate)
         } catch(error)  {
-            Log(LogLevel.Error,error);
+            Log(LogLevel.Error,"iCE error");
         };
     }
     
@@ -85,12 +87,16 @@ export class WebRTC
         this.State = "Got SDP offer";        
     
         try{
-            var Conn = this.Conn;
+            var Conn = this.Conn? this.Conn : null;
+            if (Conn == null) {
+                return;
+            }
+
             await Conn.setRemoteDescription(sdp)
             var ans = await Conn.createAnswer()
             await this.onLocalDescription(ans);
         } catch(error) {
-            Log(LogLevel.Error,error);
+            Log(LogLevel.Error,"SDP error");
         };
     }
     
@@ -102,7 +108,11 @@ export class WebRTC
      */
     private async onLocalDescription(desc : RTCSessionDescriptionInit) {
         var Conn = this.Conn;
-        await this.Conn.setLocalDescription(desc)
+        if (Conn == null) {
+            return;
+        }
+ 
+        await Conn.setLocalDescription(desc)
 
         if (!Conn.localDescription)
             return;
